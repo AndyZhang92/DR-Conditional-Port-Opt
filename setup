@@ -1,0 +1,7 @@
+echo "Hello from DR Portfolio OPT!"
+pip install conda
+conda create -n port-opt python=3.8
+conda activate port-opt
+pip install -r py-requirements
+gdown https://drive.google.com/file/d/1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP/view?usp=sharing
+echo "Initialization Complete! Switched to virtual-env..."
