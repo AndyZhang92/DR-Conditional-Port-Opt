@@ -16,5 +16,5 @@ echo "Switched to virtual-env..."
 sleep 2
 
 pip3 install -r py-requirements
-gdown https://drive.google.com/file/d/1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP/view?usp=sharing
+gdown https://drive.google.com/uc?id=1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP -O ~/stock_return_data.zip
 echo "Initialization Complete!"
