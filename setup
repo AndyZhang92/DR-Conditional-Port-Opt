@@ -3,12 +3,10 @@ echo "Hello from DR Portfolio OPT!"
 PATH=$PATH:/home/ubuntu/.local/bin
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt install unzip
-sudo apt install python3-pip
-pip3 install wheel
-sudo apt-get install python3-dev
-sudo apt-get install python3-venv
-sudo apt install python3-pip
+
+sudo apt-get install gcc libpq-dev -y
+sudo apt-get install python-dev  python-pip -y
+sudo apt-get install python3-dev python3-pip python3-venv python3-wheel -y
 
 python3.8 -m venv ~/port-opt-env
 source ~/port-opt-env/bin/activate
@@ -21,7 +19,9 @@ echo "Initialization Complete!"
 echo "Start Download Data..."
 sleep 3
 gdown https://drive.google.com/uc?id=1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP -O ~/stock_return_data.zip
+
 echo "Unzip Data..."
+sudo apt install unzip
 unzip -q ~/stock_return_data.zip
 rm ~/stock_return_data.zip
 
