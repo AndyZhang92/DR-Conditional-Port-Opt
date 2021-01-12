@@ -1,0 +1,6 @@
+*/portfolio_res/
+*/data/
+*/figures/
+.ipynb_checkpoints
+**/.ipynb_checkpoints/*
+**/__pycache__/
