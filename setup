@@ -1,7 +1,14 @@
 echo "Hello from DR Portfolio OPT!"
-pip install conda
-conda create -n port-opt python=3.8
-conda activate port-opt
+sudo apt-get update
+sudo apt-get upgrade
+curl -O https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py --user
+export PATH=/home/ubuntu/.local/bin
+sudo apt-get install python3-venv
+python3.8 -m venv ~/port-opt-env
+source ~/port-opt-env/bin/activate
+echo "Switched to virtual-env..."
+sleep 2
 pip install -r py-requirements
 gdown https://drive.google.com/file/d/1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP/view?usp=sharing
-echo "Initialization Complete! Switched to virtual-env..."
+echo "Initialization Complete!"
