@@ -1,14 +1,20 @@
 echo "Hello from DR Portfolio OPT!"
+
+PATH=$PATH:/home/ubuntu/.local/bin
 sudo apt-get update
 sudo apt-get upgrade
-curl -O https://bootstrap.pypa.io/get-pip.py
-python3 get-pip.py --user
-export PATH=/home/ubuntu/.local/bin
+
+sudo apt install python3-pip
+pip3 install wheel
+sudo apt-get install python3-dev
 sudo apt-get install python3-venv
+sudo apt install python3-pip
+
 python3.8 -m venv ~/port-opt-env
 source ~/port-opt-env/bin/activate
 echo "Switched to virtual-env..."
 sleep 2
-pip install -r py-requirements
+
+pip3 install -r py-requirements
 gdown https://drive.google.com/file/d/1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP/view?usp=sharing
 echo "Initialization Complete!"
