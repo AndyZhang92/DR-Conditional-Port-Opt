@@ -7,6 +7,7 @@ sudo apt-get upgrade
 sudo apt-get install gcc libpq-dev -y
 sudo apt-get install python-dev  python-pip -y
 sudo apt-get install python3-dev python3-pip python3-venv python3-wheel -y
+sudo apt-get install parallel
 
 python3.8 -m venv ~/port-opt-env
 source ~/port-opt-env/bin/activate
@@ -14,6 +15,7 @@ echo "Switched to virtual-env..."
 sleep 3
 
 pip3 install -r py-requirements
+pip3 install ipywidgets
 echo "Initialization Complete!"
 
 echo "Start Download Data..."

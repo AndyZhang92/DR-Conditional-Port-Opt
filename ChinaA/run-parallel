@@ -1,0 +1,4 @@
+#!/bin/bash
+SEEDNUM=100
+source ~/port-opt-env/bin/activate
+parallel --bar -j+0 python3 port-opt-exp.py --solver=MV --SEED={1} --reg_params=0.1 :::: <(seq $SEEDNUM)
