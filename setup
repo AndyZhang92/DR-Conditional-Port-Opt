@@ -22,6 +22,8 @@ gdown https://drive.google.com/uc?id=1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP -O ~/stoc
 
 echo "Unzip Data..."
 sudo apt install unzip
-unzip -q ~/stock_return_data.zip
+unzip -q ~/stock_return_data.zip -d ~/
 rm ~/stock_return_data.zip
 
+mkdir ~/mosek
+gdown https://drive.google.com/uc?id=1rCGpriCWoZnswNVnjnOs75o4xzJF6QW1 -O ~/mosek/mosek.lic
