@@ -1,4 +1,35 @@
 #!/bin/bash
 SEEDNUM=100
+REG=0.1
+GAMMA_Q_ARR=(0.1 0.25 0.5)
+RHO_Q_ARR=(0.05 0.1 0.25)
+EPS_ARR=(0.1 0.2 0.5) 
+RHO_DIV_ARR=(1.1 1.2)
+DELTA_ARR=(0.1 0.2 0.5) 
+P_ARR=(2)
+
 source ~/port-opt-env/bin/activate
-parallel --bar -j+0 python3 port-opt-exp.py --solver=MV --SEED={1} --reg_params=0.1 :::: <(seq $SEEDNUM)
+
+echo "OTCMV Start"
+parallel --bar -j+0 python3 port-opt-exp.py --solver=OTCMV --SEED={3} \
+--reg_params=$REG --epsilon={1} --rho_div_rho_min={2} \
+::: "${EPS_ARR[@]}" ::: "${RHO_DIV_ARR[@]}" :::: <(seq $SEEDNUM)
+
+echo "EW Start"
+parallel --bar -j+0 python3 port-opt-exp.py --solver=EW --SEED={1} :::: <(seq $SEEDNUM)
+
+echo "MV Start"
+parallel --bar -j+0 python3 port-opt-exp.py --solver=MV --SEED={1} --reg_params=$REG :::: <(seq $SEEDNUM)
+
+echo "CMV Start"
+parallel --bar -j+0 python3 port-opt-exp.py --solver=CMV --SEED={1} --reg_params=$REG :::: <(seq $SEEDNUM)
+
+echo "DRMV Start"
+parallel --bar -j+0 python3 port-opt-exp.py --solver=DRMV --SEED={3} \
+--reg_params=$REG --delta={1} --p={2} \
+::: "${DELTA_ARR[@]}" ::: "${P_ARR[@]}" :::: <(seq $SEEDNUM)
+
+echo "DRCMV Start"
+parallel --bar -j+0 python3 port-opt-exp.py --solver=DRCMV --SEED={3} \
+--reg_params=$REG --gamma_quantile={1} --rho_quantile={2} \
+::: "${GAMMA_Q_ARR[@]}" ::: "${RHO_Q_ARR[@]}" :::: <(seq $SEEDNUM)

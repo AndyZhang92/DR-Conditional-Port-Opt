@@ -1,5 +1,6 @@
 import numpy as np
 import cvxpy as cp
+import mosek
 import scipy
 
 def DR_Winfty_conditional_mean_variance_long_only_opt_cvx_kernel(
@@ -87,7 +88,8 @@ def DR_W2_conditional_mean_variance_long_only_opt_cvx_kernel_new(
                   beta >= 0,
                   cp.sum(beta) == 1]
     prob = cp.Problem(cp.Minimize(obj), constraints)
-    prob.solve()
+    prob.solve(mosek_params = {mosek.dparam.optimizer_max_time:  100.0,
+                               mosek.dparam.intpnt_co_tol_rel_gap: 1e-4})
     assert prob.status == 'optimal'
     return beta.value
 

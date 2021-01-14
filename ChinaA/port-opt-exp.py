@@ -242,7 +242,7 @@ def get_solver_and_name_prefix(solver_code):
         'CMV': solvers.meanvariance.mean_variance_long_only_opt_mosek_kernel,
         'DRMV': solvers.DRmeanvariance.DR_mean_variance_long_only_opt_mosek_kernel_p2,
         'DRCMV': solvers.DRconditionalmeanvariance.DR_Winfty_conditional_mean_variance_long_only_opt_cvx_kernel,
-        'OTCMV': solvers.DRconditionalmeanvariance.DR_W2_conditional_mean_variance_long_only_opt_cvx_kernel,
+        'OTCMV': solvers.DRconditionalmeanvariance.DR_W2_conditional_mean_variance_long_only_opt_cvx_kernel_new,
     }
     solver = mapping[solver_code]
     solver_name_prefix = ''
