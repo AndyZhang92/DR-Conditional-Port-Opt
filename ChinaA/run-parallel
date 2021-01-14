@@ -10,11 +10,6 @@ P_ARR=(2)
 
 source ~/port-opt-env/bin/activate
 
-echo "OTCMV Start"
-parallel --bar -j+0 python3 port-opt-exp.py --solver=OTCMV --SEED={3} \
---reg_params=$REG --epsilon={1} --rho_div_rho_min={2} \
-::: "${EPS_ARR[@]}" ::: "${RHO_DIV_ARR[@]}" :::: <(seq $SEEDNUM)
-
 echo "EW Start"
 parallel --bar -j+0 python3 port-opt-exp.py --solver=EW --SEED={1} :::: <(seq $SEEDNUM)
 
@@ -33,3 +28,8 @@ echo "DRCMV Start"
 parallel --bar -j+0 python3 port-opt-exp.py --solver=DRCMV --SEED={3} \
 --reg_params=$REG --gamma_quantile={1} --rho_quantile={2} \
 ::: "${GAMMA_Q_ARR[@]}" ::: "${RHO_Q_ARR[@]}" :::: <(seq $SEEDNUM)
+
+echo "OTCMV Start"
+parallel --bar -j+0 python3 port-opt-exp.py --solver=OTCMV --SEED={3} \
+--reg_params=$REG --epsilon={1} --rho_div_rho_min={2} \
+::: "${EPS_ARR[@]}" ::: "${RHO_DIV_ARR[@]}" :::: <(seq $SEEDNUM)
