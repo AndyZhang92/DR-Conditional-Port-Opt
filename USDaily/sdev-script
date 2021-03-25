@@ -1,0 +1,52 @@
+#!/bin/bash
+#SBATCH --job-name=port              # Job name
+#SBATCH --array=1-256                # Number of MPI tasks (i.e. processes)
+#SBATCH --cpus-per-task=1            # Number of cores per MPI task 
+#SBATCH --nodes=1                    # Maximum number of nodes to be allocated
+#SBATCH --ntasks-per-node=1          # Maximum number of tasks on each node
+#SBATCH --time=48:00:00              # Time limit hrs:min:sec
+#SBATCH -o ./slurm_output/output.%a.out
+
+
+date;hostname;pwd
+source /home/groups/jblanche/DR-Conditional-Port-Opt/port-opt-env/bin/activate
+REG=2
+GAMMA_Q_ARR=(0.1 0.25 0.5)
+RHO_Q_ARR=(0.05 0.1 0.25)
+EPS_ARR=(0.1 0.2 0.5) 
+RHO_DIV_ARR=(1.1 1.2)
+DELTA_ARR=(0.1 0.2 0.5) 
+P_ARR=(2)
+
+python3 port-opt-exp.py --solver=EW --SEED=$SLURM_ARRAY_TASK_ID
+echo 'EW finish'
+
+python3 port-opt-exp.py --solver=MV --SEED=$SLURM_ARRAY_TASK_ID --reg_params=$REG
+echo "MV finish"
+
+python3 port-opt-exp.py --solver=CMV --SEED=$SLURM_ARRAY_TASK_ID --reg_params=$REG
+echo "CMV finish"
+
+for delta in "${DELTA_ARR[@]}"; do
+    for p in "${P_ARR[@]}"; do
+        python3 port-opt-exp.py --solver=DRMV --SEED=$SLURM_ARRAY_TASK_ID --reg_params=$REG --delta=$delta --p=$p
+    done;
+done;
+echo "DRMV finish"
+
+for gamma_q in "${GAMMA_Q_ARR[@]}"; do
+    for rho_q in "${RHO_Q_ARR[@]}"; do
+        python3 port-opt-exp.py --solver=DRCMV --SEED=$SLURM_ARRAY_TASK_ID --reg_params=$REG \
+        --gamma_quantile=$gamma_q --rho_quantile=$rho_q
+    done;
+done;
+echo "DRCMV finish"
+
+for eps in "${EPS_ARR[@]}"; do
+    for rho_div in "${RHO_DIV_ARR[@]}"; do
+        python3 port-opt-exp.py --solver=OTCMV --SEED=$SLURM_ARRAY_TASK_ID --reg_params=$REG \
+        --epsilon=$eps --rho_div_rho_min=$rho_div
+    done;
+done;
+echo "OTCMV finish"
+

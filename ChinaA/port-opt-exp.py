@@ -254,31 +254,33 @@ def get_solver_and_name_prefix(solver_code):
         
 
 if __name__ == "__main__":
-    args = gen_argparser().parse_args()
-    solver_code = args.solver
-    solver_kwargs_name_list = get_solver_kwargs_name_list(solver_code)
-    solver_kwargs = {name: vars(args)[name] for name in solver_kwargs_name_list}
-    solver, solver_name_prefix = get_solver_and_name_prefix(solver_code)
-    sample_stock_num = args.stock_num
-    SEED = args.SEED
-    if solver_code in ['EW', 'MV', 'DRMV']:
-        resample_experiments(SEED, 
-                             sample_stock_num, 
-                             solver, 
-                             solver_name_prefix = solver_name_prefix,
-                             **solver_kwargs)
-    if solver_code in ['CMV']:
-        resample_experiments_conditional_fama_french(SEED, 
-                                                     sample_stock_num, 
-                                                     solver,
-                                                     solver_name_prefix = solver_name_prefix, 
-                                                     **solver_kwargs)
-    if solver_code in ['DRCMV', 'OTCMV']:
-        resample_experiments_DR_conditional(SEED, 
-                                            sample_stock_num, 
-                                            solver, 
-                                            solver_name_prefix = solver_name_prefix, 
-                                            **solver_kwargs)
+    from threadpoolctl import threadpool_limits
+    with threadpool_limits(limits=4, user_api='blas'):
+        args = gen_argparser().parse_args()
+        solver_code = args.solver
+        solver_kwargs_name_list = get_solver_kwargs_name_list(solver_code)
+        solver_kwargs = {name: vars(args)[name] for name in solver_kwargs_name_list}
+        solver, solver_name_prefix = get_solver_and_name_prefix(solver_code)
+        sample_stock_num = args.stock_num
+        SEED = args.SEED
+        if solver_code in ['EW', 'MV', 'DRMV']:
+            resample_experiments(SEED, 
+                                 sample_stock_num, 
+                                 solver, 
+                                 solver_name_prefix = solver_name_prefix,
+                                 **solver_kwargs)
+        if solver_code in ['CMV']:
+            resample_experiments_conditional_fama_french(SEED, 
+                                                         sample_stock_num, 
+                                                         solver,
+                                                         solver_name_prefix = solver_name_prefix, 
+                                                         **solver_kwargs)
+        if solver_code in ['DRCMV', 'OTCMV']:
+            resample_experiments_DR_conditional(SEED, 
+                                                sample_stock_num, 
+                                                solver, 
+                                                solver_name_prefix = solver_name_prefix, 
+                                                **solver_kwargs)
                         
     
 

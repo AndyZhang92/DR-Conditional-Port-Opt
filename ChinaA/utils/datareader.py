@@ -8,7 +8,7 @@ __author__ = 'FanZhang'
 __project_dir__ = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 start_date = '20100101'
 end_date = '20200101'
-local_data_path = '~/TUShareData/'
+local_data_path = '/home/groups/jblanche/DR-Conditional-Port-Opt/TUShareData/'
 
 def download_stock_data(ts_code_list):
     for ts_code in tqdm.tqdm(ts_code_list):    

@@ -1,0 +1,144 @@
+
+			     GNU Parallel
+
+		https://www.gnu.org/software/parallel/
+
+
+= Presentation of GNU Parallel =
+
+GNU Parallel is a shell tool for executing jobs in parallel using one
+or more computers. A job can be a single command or a small script
+that has to be run for each of the lines in the input. The typical
+input is a list of files, a list of hosts, a list of users, a list of
+URLs, or a list of tables. A job can also be a command that reads from
+a pipe. GNU Parallel can then split the input and pipe it into
+commands in parallel.
+
+If you use xargs and tee today you will find GNU Parallel very easy to
+use as GNU Parallel is written to have the same options as xargs. If
+you write loops in shell, you will find GNU Parallel may be able to
+replace most of the loops and make them run faster by running several
+jobs in parallel.
+
+GNU Parallel makes sure output from the commands is the same output as
+you would get had you run the commands sequentially. This makes it
+possible to use output from GNU Parallel as input for other programs.
+
+See the cheat sheet for examples that cover most of the daily usage:
+www.gnu.org/s/parallel/parallel_cheat.pdf
+
+
+= 10 seconds installation =
+
+For security reasons it is recommended you use your package manager to
+install. But if you cannot do that then you can use this 10 seconds
+installation.
+
+The 10 seconds installation will try to do a full installation; if
+that fails, a personal installation; if that fails, a minimal
+installation.
+
+    $ (wget -O - pi.dk/3 || lynx -source pi.dk/3 || curl pi.dk/3/ || \
+       fetch -o - http://pi.dk/3 ) > install.sh
+    $ sha1sum install.sh | grep 67bd7bc7dc20aff99eb8f1266574dadb
+    12345678 67bd7bc7 dc20aff9 9eb8f126 6574dadb
+    $ md5sum install.sh | grep b7a15cdbb07fb6e11b0338577bc1780f
+    b7a15cdb b07fb6e1 1b033857 7bc1780f
+    $ sha512sum install.sh | grep 186000b62b66969d7506ca4f885e0c80e02a22444
+    6f25960b d4b90cf6 ba5b76de c1acdf39 f3d24249 72930394 a4164351 93a7668d
+    21ff9839 6f920be5 186000b6 2b66969d 7506ca4f 885e0c80 e02a2244 40e8a43f
+    $ bash install.sh
+
+This will literally install faster than reading the rest of this
+document.
+
+
+= Full installation =
+
+Full installation of GNU Parallel is as simple as:
+
+    wget https://ftpmirror.gnu.org/parallel/parallel-20201222.tar.bz2
+    wget https://ftpmirror.gnu.org/parallel/parallel-20201222.tar.bz2.sig
+    gpg parallel-20201222.tar.bz2.sig
+    bzip2 -dc parallel-20201222.tar.bz2 | tar xvf -
+    cd parallel-20201222
+    ./configure && make && sudo make install
+
+
+= Personal installation =
+
+If you are not root you can add ~/bin to your path and install in
+~/bin and ~/share:
+
+    wget https://ftpmirror.gnu.org/parallel/parallel-20201222.tar.bz2
+    wget https://ftpmirror.gnu.org/parallel/parallel-20201222.tar.bz2.sig
+    gpg parallel-20201222.tar.bz2.sig
+    bzip2 -dc parallel-20201222.tar.bz2 | tar xvf -
+    cd parallel-20201222
+    ./configure --prefix=$HOME && make && make install
+
+Or if your system lacks 'make' you can simply copy src/parallel
+src/sem src/niceload src/sql to a dir in your path.
+
+
+= Minimal installation =
+
+If you just need parallel and do not have 'make' installed (maybe the
+system is old or Microsoft Windows):
+
+    wget https://git.savannah.gnu.org/cgit/parallel.git/plain/src/parallel
+    chmod 755 parallel
+    cp parallel sem
+    mv parallel sem dir-in-your-$PATH/bin/
+
+
+= Installation on compute servers =
+
+If you are developing your script to run on a remote server, that does
+not have GNU Parallel installed, but you have it installed on you
+development machine, the use can use `parallel --embed`.
+
+    parallel --embed > newscript.sh
+
+Just edit the last lines of newscript.sh and copy it to the compute
+server.
+
+
+= Test the installation =
+
+After this you should be able to do:
+
+    parallel -j0 ping -nc 3 ::: qubes-os.org gnu.org freenetproject.org
+
+This will send 3 ping packets to 3 different hosts in parallel and print
+the output when they complete.
+
+Watch the intro video for a quick introduction:
+https://www.youtube.com/playlist?list=PL284C9FF2488BC6D1
+
+Walk through the tutorial (man parallel_tutorial). You command line
+will love you for it.
+
+When using programs that use GNU Parallel to process data for
+publication please cite:
+
+    Tange, O. (2020, December 22). GNU Parallel 20201222 ('Vaccine').
+    Zenodo. https://doi.org/10.5281/zenodo.4381888
+
+Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
+2016, 2017, 2018, 2019, 2020 Ole Tange, http://ole.tange.dk and Free
+Software Foundation, Inc.
+
+
+= New versions =
+
+New versions will be released at: https://ftp.gnu.org/gnu/parallel/
+
+
+= Dependencies =
+
+GNU Parallel should work with a normal full Perl installation. However,
+if you system has split up Perl into multiple packages then these are
+the important ones:
+
+    opkg install perlbase-getopt perlbase-ipc procps-ng-ps perlbase-mime
