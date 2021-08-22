@@ -20,7 +20,7 @@ echo "Initialization Complete!"
 
 echo "Start Download Data..."
 sleep 3
-gdown https://drive.google.com/uc?id=1hNyVpcFuJY3aVOyOjSVGMyDdULfP0WyP -O ./stock_return_data.zip
+gdown https://drive.google.com/uc?id=1L7lEXKzIc7vkBfZpl2JbT2qLezEvFcw5 -O ./stock_return_data.zip
 
 echo "Unzip Data..."
 sudo apt install unzip
