@@ -101,7 +101,7 @@ def resample_experiments_conditional_fama_french(SEED,
             factor0 = sub_factor_table.iloc[-1]
             norm_factor_minus_factor0 = pd.Series(np.linalg.norm(sub_factor_table.iloc[:-1] - factor0, axis = 1), 
                                                   index = sub_factor_table.index[:-1])
-            k_nn_index = norm_factor_minus_factor0.nlargest(param_k_nn).index
+            k_nn_index = norm_factor_minus_factor0.nsmallest(param_k_nn).index
             mean_nparray.append(portfolio['pct_chg'].loc[k_nn_index].mean().values)
             cov_nparray.append(portfolio['pct_chg'].loc[k_nn_index].cov().values)
         mean_nparray = np.row_stack(mean_nparray)
